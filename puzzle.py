@@ -15,6 +15,10 @@ positions = [[0, 0], [100, 0], [200, 0], [300, 0],
              [0, 200], [100, 200], [200, 200], [300, 200],
              [0, 300], [100, 300], [200, 300], [300, 300]]
 random.shuffle(positions)
+win_positions = [[0, 0], [100, 0], [200, 0], [300, 0],
+             [0, 100], [100, 100], [200, 100], [300, 100],
+             [0, 200], [100, 200], [200, 200], [300, 200],
+             [0, 300], [100, 300], [200, 300], [300, 300]]
 
 #keep track of selected piece / original position
 selected_piece = None
@@ -37,13 +41,10 @@ while running:
             if selected_piece is not None:
                 for i in range(16):
                     if pieces[i].get_rect(topleft=positions[i]).collidepoint(event.pos):
-                        print(positions[i])
-                        print(positions[selected_piece])
-                        temp_pos = positions[i]
+                        temp_pos = positions[i]                        
                         positions[i] = positions[selected_piece]
                         positions[selected_piece] = temp_pos
-                        selected_piece = None
-            
+            selected_piece = None
 
     # Draw puzzle pieces on screen
     for i in range(16):
@@ -53,7 +54,11 @@ while running:
     if selected_piece is not None:
         mouse_x, mouse_y = pygame.mouse.get_pos()
         screen.blit(pieces[selected_piece], (mouse_x-50, mouse_y-50))
-
+    
     pygame.display.update()
+    
+    if positions == win_positions:
+        print("Congratulations, you've won the game!")
+        running = False
 
 pygame.quit()
